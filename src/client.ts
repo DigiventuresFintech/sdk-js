@@ -41,7 +41,19 @@ export class HttpClient {
     this.client.interceptors.request.use(async (config) => {
       // If the URL isn't already handling auth (like the auth endpoint itself)
       if (!config.url?.includes('/authorization/')) {
-        const token = await this.authManager.getToken();
+        // Always ensure we have a fresh token
+        let token = await this.authManager.getToken();
+        
+        // Double-check the token is valid - if not, force a fresh token
+        if (!token) {
+          console.warn('Token is undefined, forcing fresh token fetch');
+          token = await this.authManager.fetchNewToken();
+          
+          if (!token) {
+            console.error('Failed to obtain authentication token');
+            throw new Error('Authentication failed - unable to obtain token');
+          }
+        }
         
         // Ensure params object exists
         if (!config.params) {
@@ -77,12 +89,17 @@ export class HttpClient {
             this.authManager.markRetry();
             
             // Get a fresh token
-            await this.authManager.fetchNewToken();
+            const token = await this.authManager.fetchNewToken();
+            
+            if (!token) {
+              console.error('Failed to obtain new authentication token for retry');
+              return Promise.reject(new Error('Authentication failed - unable to obtain token for retry'));
+            }
             
             // Retry the original request
             const config = error.config;
             config.params = config.params || {};
-            config.params.authorization = await this.authManager.getToken();
+            config.params.authorization = token;
             
             console.log(`Retry with token: ${config.params.authorization}`);
             return this.client(config);
@@ -111,8 +128,13 @@ export class HttpClient {
     // Ensure config has params for authorization
     if (!config) config = {};
     if (!config.params) config.params = {};
+    
+    // Always ensure we have a valid token
     if (!config.params.authorization) {
       const token = await this.authManager.getToken();
+      if (!token) {
+        throw new Error('Authentication token is undefined - unable to make request');
+      }
       config.params.authorization = token;
     }
     return this.client.get<T>(url, config);
@@ -122,8 +144,13 @@ export class HttpClient {
     // Ensure config has params for authorization
     if (!config) config = {};
     if (!config.params) config.params = {};
+    
+    // Always ensure we have a valid token
     if (!config.params.authorization) {
       const token = await this.authManager.getToken();
+      if (!token) {
+        throw new Error('Authentication token is undefined - unable to make request');
+      }
       config.params.authorization = token;
     }
     return this.client.post<T>(url, data, config);
@@ -133,8 +160,13 @@ export class HttpClient {
     // Ensure config has params for authorization
     if (!config) config = {};
     if (!config.params) config.params = {};
+    
+    // Always ensure we have a valid token
     if (!config.params.authorization) {
       const token = await this.authManager.getToken();
+      if (!token) {
+        throw new Error('Authentication token is undefined - unable to make request');
+      }
       config.params.authorization = token;
     }
     return this.client.put<T>(url, data, config);
