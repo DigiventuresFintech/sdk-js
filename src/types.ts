@@ -9,7 +9,7 @@ export interface DigiConfig {
 }
 
 export interface AuthToken {
-  token: string;
+  authorization: string;
   expiration: string;
   api: {
     version: string;

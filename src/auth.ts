@@ -42,21 +42,26 @@ export class AuthManager {
       const { applicationId, secret } = this.config;
       const url = `${this.baseUrl}/authorization/${applicationId}/${secret}`;
       
+      console.log(`Fetching new token from: ${url}`);
       const response = await axios.get<AuthToken>(url, {
         timeout: this.config.timeout || 10000
       });
       
-      this.token = response.data.token;
+      console.log('Auth response data:', response.data);
+      
+      this.token = response.data.authorization;
       this.expirationTime = new Date(response.data.expiration);
       this.apiVersion = response.data.api?.version || null;
       this.authRetry = false;
       
       if (this.token === null) {
-        throw new Error('Authentication response missing token');
+        console.error('Authentication response:', response.data);
+        throw new Error('Authentication response missing authorization token');
       }
       
       return this.token;
     } catch (error) {
+      console.error('Authentication error:', error);
       throw new Error(`Authentication failed: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
