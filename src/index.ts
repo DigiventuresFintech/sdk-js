@@ -1,4 +1,10 @@
 import { DigiSDK } from './sdk';
-import { DigiConfig } from './types';
+import { DigiConfig, DigiRecord, RecordCreateData, RecordUpdateData } from './types';
 
-export { DigiSDK, DigiConfig }; 
+export { 
+  DigiSDK, 
+  DigiConfig, 
+  DigiRecord,
+  RecordCreateData,
+  RecordUpdateData
+}; 

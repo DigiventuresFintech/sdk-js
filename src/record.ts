@@ -59,4 +59,34 @@ export class RecordService {
     const response = await this.client.put<DigiRecord>(`${this.getApiVersionPath()}/legajo/${recordId}`, data);
     return response.data;
   }
+
+  /**
+   * Gets the recovery link from a record
+   * @param record Either a record ID or a record object
+   * @returns The recovery link or null if not found
+   */
+  async getLinkRecover(record: string | DigiRecord): Promise<string | null> {
+    // If a string is provided, fetch the record first
+    if (typeof record === 'string') {
+      record = await this.get(record);
+    }
+    
+    // Return the linkRecover property if it exists
+    return record.linkRecover || null;
+  }
+
+  /**
+   * Gets the applicant link from a record
+   * @param record Either a record ID or a record object
+   * @returns The applicant link or null if not found
+   */
+  async getLinkApplicant(record: string | DigiRecord): Promise<string | null> {
+    // If a string is provided, fetch the record first
+    if (typeof record === 'string') {
+      record = await this.get(record);
+    }
+    
+    // Return the linkApplicant property if it exists
+    return (record as any).linkApplicant || null;
+  }
 } 

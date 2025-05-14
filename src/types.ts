@@ -16,19 +16,20 @@ export interface AuthToken {
   };
 }
 
-export interface Legajo {
+export interface DigiRecord {
   _id: string;
   name: string;
   email: string;
   idNumber: string;
   referenceCode: string;
   linkLandingNext: string;
-  linkRecover: string;
+  linkRecover?: string;
+  linkApplicant?: string;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface LegajoCreateData {
+export interface RecordCreateData {
   firstname?: string;
   lastname?: string;
   email?: string;
@@ -36,7 +37,7 @@ export interface LegajoCreateData {
   name?: string;
 }
 
-export interface LegajoUpdateData {
+export interface RecordUpdateData {
   vouchers?: Record<string, any>;
   [key: string]: any;
 }

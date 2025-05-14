@@ -1,17 +1,17 @@
 import { AuthManager } from './auth';
 import { HttpClient } from './client';
-import { LegajoService } from './legajo';
+import { RecordService } from './record';
 import { DigiConfig, FileResponse } from './types';
 
 export class DigiSDK {
   private authManager: AuthManager;
   private client: HttpClient;
-  public legajo: LegajoService;
+  public record: RecordService;
 
   constructor(config: DigiConfig) {
     this.authManager = new AuthManager(config);
     this.client = new HttpClient(config, this.authManager);
-    this.legajo = new LegajoService(this.client, this.authManager);
+    this.record = new RecordService(this.client, this.authManager);
   }
 
   /**

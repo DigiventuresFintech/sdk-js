@@ -1,20 +1,20 @@
 import { DigiSDK } from '../src/sdk';
 import { AuthManager } from '../src/auth';
 import { HttpClient } from '../src/client';
-import { LegajoService } from '../src/legajo';
+import { RecordService } from '../src/record';
 import { FileResponse } from '../src/types';
 import { AxiosResponse } from 'axios';
 
 // Mock dependencies
 jest.mock('../src/auth');
 jest.mock('../src/client');
-jest.mock('../src/legajo');
+jest.mock('../src/record');
 
 describe('DigiSDK', () => {
   let sdk: DigiSDK;
   let mockAuthManager: jest.Mocked<AuthManager>;
   let mockClient: jest.Mocked<HttpClient>;
-  let mockLegajoService: jest.Mocked<LegajoService>;
+  let mockRecordService: jest.Mocked<RecordService>;
 
   const mockConfig = {
     applicationId: 'test-app-id',
@@ -30,12 +30,12 @@ describe('DigiSDK', () => {
     // Setup constructor mocks
     mockAuthManager = new AuthManager({} as any) as jest.Mocked<AuthManager>;
     mockClient = new HttpClient({} as any, {} as any) as jest.Mocked<HttpClient>;
-    mockLegajoService = new LegajoService({} as any, {} as any) as jest.Mocked<LegajoService>;
+    mockRecordService = new RecordService({} as any, {} as any) as jest.Mocked<RecordService>;
 
     // Mock constructors
     (AuthManager as jest.MockedClass<typeof AuthManager>).mockImplementation(() => mockAuthManager);
     (HttpClient as jest.MockedClass<typeof HttpClient>).mockImplementation(() => mockClient);
-    (LegajoService as jest.MockedClass<typeof LegajoService>).mockImplementation(() => mockLegajoService);
+    (RecordService as jest.MockedClass<typeof RecordService>).mockImplementation(() => mockRecordService);
 
     // Create SDK instance
     sdk = new DigiSDK(mockConfig);
@@ -45,7 +45,7 @@ describe('DigiSDK', () => {
     it('should initialize SDK with configuration', () => {
       expect(AuthManager).toHaveBeenCalledWith(mockConfig);
       expect(HttpClient).toHaveBeenCalledWith(mockConfig, mockAuthManager);
-      expect(LegajoService).toHaveBeenCalledWith(mockClient, mockAuthManager);
+      expect(RecordService).toHaveBeenCalledWith(mockClient, mockAuthManager);
     });
   });
 
@@ -88,8 +88,8 @@ describe('DigiSDK', () => {
   });
 
   describe('integration with services', () => {
-    it('should expose legajo service', () => {
-      expect(sdk.legajo).toBe(mockLegajoService);
+    it('should expose record service', () => {
+      expect(sdk.record).toBe(mockRecordService);
     });
   });
 }); 
