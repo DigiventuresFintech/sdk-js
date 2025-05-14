@@ -1,6 +1,6 @@
 {
   "name": "digi-tech-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "SDK oficial para integrar con la API de Digi",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
