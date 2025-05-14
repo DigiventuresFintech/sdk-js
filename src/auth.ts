@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { AuthToken, DigiventuresConfig } from './types';
+import { AuthToken, DigiConfig } from './types';
 
 export class AuthManager {
-  private config: DigiventuresConfig;
+  private config: DigiConfig;
   private token: string | null = null;
   private expirationTime: Date | null = null;
   private apiVersion: string | null = null;
   private authRetry: boolean = false;
   private baseUrl: string;
 
-  constructor(config: DigiventuresConfig) {
+  constructor(config: DigiConfig) {
     this.config = config;
     this.baseUrl = this.getBaseUrl(config.environment);
   }
@@ -17,7 +17,7 @@ export class AuthManager {
   private getBaseUrl(environment: string): string {
     switch (environment) {
       case 'qa':
-        return 'https://api.qa.digiventures.com.ar';
+        return 'https://api.qa.digiventures.la';
       case 'staging':
         return 'https://api.staging.digiventures.la';
       case 'production':

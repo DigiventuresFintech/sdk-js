@@ -1,4 +1,4 @@
-import { DigiventuresSDK } from '../src/sdk';
+import { DigiSDK } from '../src/sdk';
 import { AuthManager } from '../src/auth';
 import { HttpClient } from '../src/client';
 import { LegajoService } from '../src/legajo';
@@ -10,8 +10,8 @@ jest.mock('../src/auth');
 jest.mock('../src/client');
 jest.mock('../src/legajo');
 
-describe('DigiventuresSDK', () => {
-  let sdk: DigiventuresSDK;
+describe('DigiSDK', () => {
+  let sdk: DigiSDK;
   let mockAuthManager: jest.Mocked<AuthManager>;
   let mockClient: jest.Mocked<HttpClient>;
   let mockLegajoService: jest.Mocked<LegajoService>;
@@ -38,7 +38,7 @@ describe('DigiventuresSDK', () => {
     (LegajoService as jest.MockedClass<typeof LegajoService>).mockImplementation(() => mockLegajoService);
 
     // Create SDK instance
-    sdk = new DigiventuresSDK(mockConfig);
+    sdk = new DigiSDK(mockConfig);
   });
 
   describe('constructor', () => {

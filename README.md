@@ -1,20 +1,20 @@
-# Digiventures JavaScript SDK
+# Digi JavaScript SDK
 
-SDK oficial para integrar con la API de Digiventures.
+SDK oficial para integrar con la API de Digi.
 
 ## Instalación
 
 ```bash
-npm install digiventures-sdk
+npm install digi-tech-sdk
 ```
 
 ## Uso
 
 ```typescript
-import { DigiventuresSDK } from 'digiventures-sdk';
+import { DigiSDK } from 'digi-tech-sdk';
 
 // Configuración
-const sdk = new DigiventuresSDK({
+const sdk = new DigiSDK({
   applicationId: 'your-app-id',
   secret: 'your-secret',
   environment: 'qa' // 'qa', 'staging', 'production'
@@ -47,6 +47,27 @@ async function getLegajo(legajoId) {
   }
 }
 
+// Actualizar un legajo
+async function updateLegajo(legajoId) {
+  try {
+    const updateData = {
+      vouchers: {
+        type: 'document',
+        status: 'pending',
+        data: {
+          documentType: 'DNI',
+          documentNumber: '12345678'
+        }
+      }
+    };
+    
+    const legajo = await sdk.legajo.update(legajoId, updateData);
+    console.log('Legajo actualizado:', legajo);
+  } catch (error) {
+    console.error('Error al actualizar legajo:', error);
+  }
+}
+
 // Descargar un archivo
 async function getFile(fileUrl) {
   try {
@@ -68,4 +89,4 @@ async function getFile(fileUrl) {
 
 ## Documentación
 
-Para más información sobre la API de Digiventures, consulte la documentación oficial. 
+Para más información sobre la API de Digi, consulte la documentación oficial. 

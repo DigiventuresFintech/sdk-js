@@ -1,14 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import axiosRetry from 'axios-retry';
 import { AuthManager } from './auth';
-import { DigiventuresConfig } from './types';
+import { DigiConfig } from './types';
 
 export class HttpClient {
   private client: AxiosInstance;
   private authManager: AuthManager;
   private baseUrl: string;
 
-  constructor(config: DigiventuresConfig, authManager: AuthManager) {
+  constructor(config: DigiConfig, authManager: AuthManager) {
     this.authManager = authManager;
     this.baseUrl = this.getBaseUrl(config.environment);
     
@@ -88,7 +88,7 @@ export class HttpClient {
   private getBaseUrl(environment: string): string {
     switch (environment) {
       case 'qa':
-        return 'https://api.qa.digiventures.com.ar';
+        return 'https://api.qa.digiventures.la';
       case 'staging':
         return 'https://api.staging.digiventures.la';
       case 'production':

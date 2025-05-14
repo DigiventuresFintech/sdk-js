@@ -1,7 +1,7 @@
 {
-  "name": "digi-tech-sdk",
+  "name": "digi-sdk",
   "version": "1.0.0",
-  "description": "SDK oficial para integrar con la API de Digiventures",
+  "description": "SDK oficial para integrar con la API de Digi",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -10,11 +10,11 @@
     "prepare": "npm run build"
   },
   "keywords": [
-    "digiventures",
+    "digi",
     "api",
     "sdk"
   ],
-  "author": "Digiventures",
+  "author": "Digi",
   "license": "MIT",
   "dependencies": {
     "axios": "^1.6.2",

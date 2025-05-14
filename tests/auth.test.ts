@@ -25,7 +25,7 @@ describe('AuthManager', () => {
   describe('getToken', () => {
     it('should fetch a new token when no token exists', async () => {
       // Mock the authentication API
-      nock('https://api.qa.digiventures.com.ar')
+      nock('https://api.qa.digiventures.la')
         .get(`/authorization/${mockConfig.applicationId}/${mockConfig.secret}`)
         .reply(200, mockAuthResponse);
 
@@ -37,7 +37,7 @@ describe('AuthManager', () => {
 
     it('should use cached token if it exists and is not expired', async () => {
       // Mock the authentication API (should only be called once)
-      const authScope = nock('https://api.qa.digiventures.com.ar')
+      const authScope = nock('https://api.qa.digiventures.la')
         .get(`/authorization/${mockConfig.applicationId}/${mockConfig.secret}`)
         .reply(200, mockAuthResponse);
 
@@ -72,11 +72,11 @@ describe('AuthManager', () => {
       };
 
       // Mock the authentication API calls
-      nock('https://api.qa.digiventures.com.ar')
+      nock('https://api.qa.digiventures.la')
         .get(`/authorization/${mockConfig.applicationId}/${mockConfig.secret}`)
         .reply(200, expiredTokenResponse);
       
-      nock('https://api.qa.digiventures.com.ar')
+      nock('https://api.qa.digiventures.la')
         .get(`/authorization/${mockConfig.applicationId}/${mockConfig.secret}`)
         .reply(200, newTokenResponse);
 
@@ -94,7 +94,7 @@ describe('AuthManager', () => {
   describe('getApiVersion', () => {
     it('should return the API version from auth response', async () => {
       // Mock the authentication API
-      nock('https://api.qa.digiventures.com.ar')
+      nock('https://api.qa.digiventures.la')
         .get(`/authorization/${mockConfig.applicationId}/${mockConfig.secret}`)
         .reply(200, mockAuthResponse);
 
@@ -115,7 +115,7 @@ describe('AuthManager', () => {
   describe('error handling', () => {
     it('should throw an error if authentication fails', async () => {
       // Mock failed authentication
-      nock('https://api.qa.digiventures.com.ar')
+      nock('https://api.qa.digiventures.la')
         .get(`/authorization/${mockConfig.applicationId}/${mockConfig.secret}`)
         .replyWithError('Network error');
 

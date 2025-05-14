@@ -1,6 +1,6 @@
 export type Environment = 'qa' | 'staging' | 'production';
 
-export interface DigiventuresConfig {
+export interface DigiConfig {
   applicationId: string;
   secret: string;
   environment: Environment;

@@ -1,4 +1,4 @@
-import { DigiventuresSDK } from './sdk';
-import { DigiventuresConfig } from './types';
+import { DigiSDK } from './sdk';
+import { DigiConfig } from './types';
 
-export { DigiventuresSDK, DigiventuresConfig }; 
+export { DigiSDK, DigiConfig }; 
