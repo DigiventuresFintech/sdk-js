@@ -10,7 +10,7 @@ describe('AuthManager', () => {
   };
 
   const mockAuthResponse = {
-    token: 'test-token',
+    authorization: 'test-token',
     expiration: new Date(Date.now() + 3600000).toISOString(), // 1 hour from now
     api: {
       version: '1.0'
@@ -32,7 +32,7 @@ describe('AuthManager', () => {
       const authManager = new AuthManager(mockConfig);
       const token = await authManager.getToken();
 
-      expect(token).toBe(mockAuthResponse.token);
+      expect(token).toBe(mockAuthResponse.authorization);
     });
 
     it('should use cached token if it exists and is not expired', async () => {
@@ -45,11 +45,11 @@ describe('AuthManager', () => {
       
       // First call - should fetch from API
       const token1 = await authManager.getToken();
-      expect(token1).toBe(mockAuthResponse.token);
+      expect(token1).toBe(mockAuthResponse.authorization);
       
       // Second call - should use cached token
       const token2 = await authManager.getToken();
-      expect(token2).toBe(mockAuthResponse.token);
+      expect(token2).toBe(mockAuthResponse.authorization);
       
       // Verify the API was only called once
       authScope.done();
@@ -64,7 +64,7 @@ describe('AuthManager', () => {
       
       // Create a new token response
       const newTokenResponse = {
-        token: 'new-test-token',
+        authorization: 'new-test-token',
         expiration: new Date(Date.now() + 3600000).toISOString(),
         api: {
           version: '1.0'
@@ -87,7 +87,7 @@ describe('AuthManager', () => {
       
       // Second call - should fetch new token because the first one is expired
       const token = await authManager.getToken();
-      expect(token).toBe(newTokenResponse.token);
+      expect(token).toBe(newTokenResponse.authorization);
     });
   });
 
