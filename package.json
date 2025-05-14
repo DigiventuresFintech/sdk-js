@@ -1,5 +1,5 @@
 {
-  "name": "digiventures-sdk",
+  "name": "digi-tech-sdk",
   "version": "1.0.0",
   "description": "SDK oficial para integrar con la API de Digiventures",
   "main": "dist/index.js",
