@@ -43,11 +43,16 @@ export class HttpClient {
       if (!config.url?.includes('/authorization/')) {
         const token = await this.authManager.getToken();
         
-        // Add token to query params
+        // Ensure params object exists
         if (!config.params) {
           config.params = {};
         }
+        
+        // Explicitly add authorization token as a query parameter
         config.params.authorization = token;
+        
+        // For debugging - log the URL with params
+        console.log(`Request URL: ${config.url} with params:`, config.params);
       }
       return config;
     });
@@ -60,12 +65,15 @@ export class HttpClient {
         return response;
       },
       async (error) => {
+        console.error('Request failed:', error.response?.status, error.config?.url);
+        
         // If we get a 401 or 500 and haven't retried yet
         if (
           error.response?.status === 401 || 
           error.response?.status === 500
         ) {
           if (!this.authManager.hasRetried()) {
+            console.log('Retrying with new token...');
             this.authManager.markRetry();
             
             // Get a fresh token
@@ -76,6 +84,7 @@ export class HttpClient {
             config.params = config.params || {};
             config.params.authorization = await this.authManager.getToken();
             
+            console.log(`Retry with token: ${config.params.authorization}`);
             return this.client(config);
           }
         }
@@ -99,14 +108,35 @@ export class HttpClient {
   }
 
   async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    // Ensure config has params for authorization
+    if (!config) config = {};
+    if (!config.params) config.params = {};
+    if (!config.params.authorization) {
+      const token = await this.authManager.getToken();
+      config.params.authorization = token;
+    }
     return this.client.get<T>(url, config);
   }
 
   async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    // Ensure config has params for authorization
+    if (!config) config = {};
+    if (!config.params) config.params = {};
+    if (!config.params.authorization) {
+      const token = await this.authManager.getToken();
+      config.params.authorization = token;
+    }
     return this.client.post<T>(url, data, config);
   }
 
   async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    // Ensure config has params for authorization
+    if (!config) config = {};
+    if (!config.params) config.params = {};
+    if (!config.params.authorization) {
+      const token = await this.authManager.getToken();
+      config.params.authorization = token;
+    }
     return this.client.put<T>(url, data, config);
   }
 } 
